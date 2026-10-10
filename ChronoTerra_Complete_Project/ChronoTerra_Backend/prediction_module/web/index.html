@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GEOAI-04 · Change Intelligence</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-side-by-side@2.2.0/layout.css">
+  <style>
+    :root{--bg:#0a1020;--panel:#111b2f;--muted:#95a8c5;--text:#edf4ff;--line:#233451;--accent:#69e0b0;--blue:#7eb5ff}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#152b48 0%,var(--bg) 48%);color:var(--text);font:14px/1.45 Inter,ui-sans-serif,system-ui,Segoe UI,sans-serif}
+    header{padding:22px clamp(16px,4vw,48px) 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .brand{display:flex;gap:12px;align-items:center}.logo{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,#69e0b0,#7eb5ff);color:#071222;font-weight:900;font-size:18px}.eyebrow{color:var(--accent);font-size:11px;letter-spacing:.17em;font-weight:800}.title{font-size:24px;font-weight:800;letter-spacing:-.03em}.sub{color:var(--muted);font-size:12px}.pill{border:1px solid #476b63;border-radius:999px;padding:6px 10px;color:var(--accent);font-size:11px;font-weight:800;letter-spacing:.06em}
+    main{padding:22px clamp(16px,4vw,48px) 36px;max-width:1600px;margin:auto}.grid{display:grid;grid-template-columns:330px minmax(0,1fr);gap:18px}.panel{background:rgba(17,27,47,.92);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 14px 50px #0002}.panelHead{padding:16px 18px;border-bottom:1px solid var(--line)}.panelHead h2{font-size:14px;margin:0 0 4px}.panelHead p{color:var(--muted);font-size:12px;margin:0}.controls{padding:18px;display:grid;gap:14px}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:7px}.field input[type=file]{width:100%;font-size:11px;color:var(--muted)}.field input[type=number]{width:100%;background:#0a1425;border:1px solid #2a3b58;color:var(--text);padding:10px;border-radius:9px}.hint{font-size:11px;color:var(--muted);margin-top:5px}.check{display:flex;gap:8px;align-items:center;color:#cbd7e9;font-size:12px}.btn{border:0;border-radius:10px;background:var(--accent);color:#081321;padding:12px 14px;font-weight:900;cursor:pointer}.btn:disabled{opacity:.55;cursor:wait}.notice{color:var(--muted);font-size:11px;border-left:2px solid var(--blue);padding:7px 10px;background:#0b1729}.status{font-size:12px;color:var(--muted);min-height:18px}.right{display:grid;gap:18px;align-content:start}.mapHead{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;flex-wrap:wrap}.mapLabels{display:flex;gap:10px;flex-wrap:wrap}.tag{font-size:10px;border-radius:7px;padding:4px 7px;font-weight:800;background:#223d5e;color:#aad0ff}.tag.green{background:#143c34;color:#8af1cc}.tag.red{background:#492c3a;color:#ffc0ce}#map{height:520px;background:#142136}.empty{display:grid;place-items:center;height:520px;color:var(--muted);text-align:center;padding:24px}.empty b{color:var(--text);display:block;font-size:18px;margin-bottom:8px}.mapwrap{position:relative}.legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:11px;padding:12px 18px;border-top:1px solid var(--line)}.dot{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px;background:#ff5577}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.stat{background:rgba(17,27,47,.92);border:1px solid var(--line);border-radius:13px;padding:14px 16px}.stat label{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.12em;font-weight:800}.stat strong{display:block;font-size:24px;margin-top:5px;letter-spacing:-.03em}.stat small{color:var(--muted);font-size:10px}.downloads{display:flex;gap:8px;flex-wrap:wrap}.link{border:1px solid #36506f;color:var(--blue);text-decoration:none;padding:7px 10px;border-radius:8px;font-size:11px;font-weight:700}.link.disabled{opacity:.45;pointer-events:none}.foot{color:#7184a0;font-size:11px;margin-top:20px;text-align:center}.leaflet-container{font:12px/1.4 system-ui}.leaflet-control-attribution{font-size:9px!important}
+    @media(max-width:1000px){.grid{grid-template-columns:1fr}#map,.empty{height:440px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:560px){.title{font-size:20px}#map,.empty{height:360px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  </style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">Δ</div><div><div class="eyebrow">FUSION 2026 · GEOAI 04</div><div class="title">Change Intelligence</div><div class="sub">Bi-temporal satellite change analysis · CPU-first prototype</div></div></div><div class="pill">RESEARCH PROTOTYPE · NOT OPERATIONAL DAMAGE ASSESSMENT</div></header>
+<main>
+
+  <section class="panel" style="margin-bottom:18px">
+    <div class="panelHead"><h2>Learned-model prediction</h2><p>Task-specific inference with quality preflight. A trained, evaluated checkpoint must be installed for prediction.</p></div>
+    <form class="controls" id="mlForm">
+      <div class="field"><label for="mlTask">Analysis task</label>
+        <select id="mlTask" name="task" style="width:100%;background:#0a1425;border:1px solid #2a3b58;color:var(--text);padding:10px;border-radius:9px">
+          <option value="urban_change">Urban change · 13-band Sentinel-2</option>
+          <option value="flood_extent">Flood-water extent · 2-band Sentinel-1 VV/VH</option>
+          <option value="building_damage">Building damage · paired RGB xBD-style</option>
+        </select>
+      </div>
+      <div class="field" id="mlInputWrap" hidden><label for="mlInput">Sentinel-1 VV/VH GeoTIFF</label><input id="mlInput" type="file" accept=".tif,.tiff"><div class="hint">Two bands in VV then VH order; expected backscatter dB scale.</div></div>
+      <div class="field" id="mlBeforeWrap"><label id="mlBeforeLabel" for="mlBefore">Before image</label><input id="mlBefore" type="file" accept=".tif,.tiff"><div class="hint" id="mlBeforeHint">13-band OSCD-order Sentinel-2 GeoTIFF with CRS and transform.</div></div>
+      <div class="field" id="mlAfterWrap"><label id="mlAfterLabel" for="mlAfter">After image</label><input id="mlAfter" type="file" accept=".tif,.tiff"><div class="hint" id="mlAfterHint">Same area, CRS, pixel grid, band order, and compatible radiometric scale.</div></div>
+      <div class="field" id="mlSclWrap"><label>Optional Sentinel-2 Scene Classification Layer (SCL) masks</label><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input id="mlBeforeScl" type="file" accept=".tif,.tiff" aria-label="Before SCL GeoTIFF"><input id="mlAfterScl" type="file" accept=".tif,.tiff" aria-label="After SCL GeoTIFF"></div><div class="hint">Supply both masks on their matching image grid. SCL is helpful but not perfect cloud/shadow removal.</div></div>
+      <div class="field" id="mlSclPolicyWrap"><label for="mlSclPolicy">SCL class 2 policy</label><select id="mlSclPolicy" style="width:100%;background:#0a1425;border:1px solid #2a3b58;color:var(--text);padding:10px;border-radius:9px"><option value="mask" selected>Mask class 2 (modern PB04+ cast shadows)</option><option value="keep">Keep class 2 (only for verified legacy products)</option></select><div class="hint">ESA renamed class 2 to CAST_SHADOW for PB04+; use “keep” only when the source processing baseline justifies it.</div></div>
+      <div class="field" id="mlPairMetaWrap"><label for="mlPairMeta">Optional pair_metadata.json</label><input id="mlPairMeta" type="file" accept=".json"><div class="hint">Useful for acquisition dates and sensor/source provenance when embedded tags are absent.</div></div>
+      <div class="field" id="mlAOIWrap"><label for="mlAOI">Optional geographic Area of Interest (GeoJSON)</label><input id="mlAOI" type="file" accept=".geojson,.json"><div class="hint">Polygon/MultiPolygon in WGS84 longitude/latitude. Outputs are masked outside this AOI; georeferenced rasters required.</div></div>
+      <label class="check"><input id="mlAssumeBands" type="checkbox"> I independently verified the source band order (required if GeoTIFF band descriptions are missing)</label>
+      <div class="notice">PASS/WARNING is not proof of scene identity. No blind warping is done. Model scores and entropy are not calibrated confidence. Urban change is not a legal encroachment decision.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="mlPreflight" type="button">1. Validate inputs</button><button class="btn" id="mlPredict" type="button">2. Run trained model</button><button class="link" id="mlStatusBtn" type="button" style="background:transparent;color:var(--blue)">Check model availability</button></div>
+      <div class="status" id="mlStatus">Choose a task and validate its inputs first.</div>
+      <div class="downloads" id="mlArtifacts"></div>
+      <details><summary style="cursor:pointer;color:var(--blue)">View validation / prediction report</summary><pre id="mlReport" style="white-space:pre-wrap;overflow-wrap:anywhere;max-height:380px;overflow:auto;background:#07101f;border:1px solid var(--line);border-radius:9px;padding:12px;color:#ccd8e8;font-size:11px">No report yet.</pre></details>
+    </form>
+  </section>
+  <div class="grid">
+    <section class="panel"><div class="panelHead"><h2>Analyze an image pair</h2><p>Upload two same-grid, georeferenced multiband GeoTIFFs.</p></div>
+      <form class="controls" id="form">
+        <div class="field"><label for="before">01 / BEFORE GeoTIFF</label><input id="before" name="before_file" type="file" accept=".tif,.tiff" required><div class="hint">Earlier observation · must have CRS and transform</div></div>
+        <div class="field"><label for="after">02 / AFTER GeoTIFF</label><input id="after" name="after_file" type="file" accept=".tif,.tiff" required><div class="hint">Same footprint, dimensions, bands and affine transform</div></div>
+        <div class="field"><label for="minsize">Minimum connected object (pixels)</label><input id="minsize" name="min_object_size" type="number" min="1" value="8"></div>
+        <div class="field"><label for="opening">Morphological opening radius (pixels)</label><input id="opening" name="opening_radius" type="number" min="0" value="1"></div>
+        <label class="check"><input id="hist" name="histogram_match" type="checkbox"> Histogram matching (valid pixels only; experimental)</label>
+        <div class="notice">The baseline detects candidate differences. Pixel differences are not proof of damage. Output priority tiers are heuristic.</div>
+        <button class="btn" id="run" type="submit">Run change analysis →</button><div class="status" id="status">Ready. For a no-data smoke test, use the synthetic pair generator in tools/.</div>
+      </form>
+    </section>
+    <section class="panel mapwrap"><div class="mapHead"><div><h2 style="margin:0 0 3px;font-size:14px">Before / after comparison</h2><div class="sub">Drag the centre swipe handle to compare source previews.</div></div><div class="mapLabels"><span class="tag">BEFORE</span><span class="tag green">AFTER</span><span class="tag red">CANDIDATE CHANGES</span></div></div><div id="map"><div class="empty" id="empty"><div><b>Waiting for imagery</b>Upload a compatible GeoTIFF pair to view the comparison, polygon overlay and exportable result.</div></div></div><div class="legend"><span><i class="dot"></i>Candidate change polygon</span><span>Base-map tiles require internet access; uploaded rasters remain local to this machine.</span></div></section>
+  </div>
+  <section class="stats" style="margin-top:18px"><div class="stat"><label>Candidate polygons</label><strong id="polygons">—</strong><small>Connected regions after filtering</small></div><div class="stat"><label>Changed pixels</label><strong id="pixels">—</strong><small>Within valid input overlap</small></div><div class="stat"><label>Changed area fraction</label><strong id="fraction">—</strong><small>Not a calibrated probability</small></div><div class="stat"><label>Otsu threshold</label><strong id="threshold">—</strong><small>Per-pair adaptive threshold</small></div></section>
+  <section class="panel" style="margin-top:18px"><div class="mapHead"><div><h2 style="margin:0 0 4px;font-size:14px">Analysis artifacts</h2><div class="sub" id="artifact-note">Run the analysis to produce raster and vector outputs.</div></div><div class="downloads"><a class="link disabled" id="geojson" href="#">Download GeoJSON</a><a class="link disabled" id="gpkg" href="#">Download GeoPackage</a><a class="link disabled" id="mask" href="#">Download change mask</a></div></div></section>
+  <div class="foot">GEOAI-04 prototype · same-grid inputs only · outputs must be validated against source imagery and suitable reference data before operational use.</div>
+</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-side-by-side@2.2.0/leaflet-side-by-side.js"></script>
+<script>
+const form=document.getElementById('form'),statusEl=document.getElementById('status'),runBtn=document.getElementById('run');
+let map=null,sideControl=null,layers=[],geoLayer=null;
+function link(id,url){const el=document.getElementById(id);el.href=url;el.classList.remove('disabled');el.target='_blank';}
+function clearMap(){if(map){map.remove();map=null;} sideControl=null; layers=[]; geoLayer=null; document.getElementById('map').innerHTML='';}
+function setupMap(result){clearMap();map=L.map('map',{zoomControl:true});const bounds=result.bounds;map.fitBounds(bounds,{padding:[12,12]});L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(map);const before=L.imageOverlay(result.before_image_url,bounds,{opacity:1});const after=L.imageOverlay(result.after_image_url,bounds,{opacity:1});before.addTo(map);after.addTo(map);layers=[before,after];if(window.L.control.sideBySide){sideControl=L.control.sideBySide(before,after).addTo(map);}else{let opacity=0.5;after.setOpacity(opacity);statusEl.textContent+=' Swipe plugin unavailable; after image overlay is at 50% opacity.';}
+  fetch(result.geojson_url).then(r=>r.json()).then(data=>{geoLayer=L.geoJSON(data,{style:f=>({color:'#ff5577',weight:2,fillColor:'#ff5577',fillOpacity:.12}),onEachFeature:(feature,layer)=>{const p=feature.properties||{};layer.bindPopup(`<b>${p.severity_tier||'Change priority'}</b><br>Area: ${Number(p.area_m2||0).toFixed(1)} m²<br>Magnitude: ${Number(p.change_magnitude||0).toFixed(3)}<br>Centroid: ${Number(p.centroid_lon||0).toFixed(5)}, ${Number(p.centroid_lat||0).toFixed(5)}<br><small>Heuristic change priority, not confirmed damage.</small>`);}}).addTo(map);}).catch(()=>{});
+}
+form.addEventListener('submit',async e=>{e.preventDefault();runBtn.disabled=true;const bf=document.getElementById('before').files[0],af=document.getElementById('after').files[0];const synthetic=/synthetic/i.test(bf.name+' '+af.name);statusEl.textContent=synthetic?'Running SYNTHETIC smoke test — this is not satellite imagery…':'Validating grids and running the CPU baseline…';const fd=new FormData();fd.append('before_file',bf);fd.append('after_file',af);fd.append('min_object_size',document.getElementById('minsize').value);fd.append('opening_radius',document.getElementById('opening').value);fd.append('histogram_match',document.getElementById('hist').checked?'true':'false');try{const response=await fetch('/api/analyze',{method:'POST',body:fd});const result=await response.json();if(!response.ok)throw new Error(result.detail||'Request failed');setupMap(result);document.getElementById('polygons').textContent=result.metrics.polygon_count.toLocaleString();document.getElementById('pixels').textContent=result.metrics.predicted_change_pixels.toLocaleString();document.getElementById('fraction').textContent=(100*result.metrics.predicted_change_fraction).toFixed(2)+'%';document.getElementById('threshold').textContent=result.metrics.threshold_otsu.toFixed(4);link('geojson',result.geojson_url);link('gpkg',result.gpkg_url);link('mask',result.mask_url);document.getElementById('artifact-note').textContent=`Session ${result.session_id} · ${result.metrics.valid_pixels.toLocaleString()} valid pixels · same-grid validation passed.`;statusEl.textContent=synthetic?'SYNTHETIC TEST ONLY: UI and file flow work; these are not satellite imagery and no real-world performance is demonstrated.':result.message;}catch(err){statusEl.textContent='Could not analyze pair: '+err.message;}finally{runBtn.disabled=false;}});
+</script>
+
+<script>
+(() => {
+ const task=document.getElementById('mlTask'), before=document.getElementById('mlBefore'), after=document.getElementById('mlAfter'), input=document.getElementById('mlInput');
+ const beforeWrap=document.getElementById('mlBeforeWrap'), afterWrap=document.getElementById('mlAfterWrap'), inputWrap=document.getElementById('mlInputWrap'), sclWrap=document.getElementById('mlSclWrap'), sclPolicyWrap=document.getElementById('mlSclPolicyWrap'), pairMetaWrap=document.getElementById('mlPairMetaWrap');
+ const status=document.getElementById('mlStatus'), report=document.getElementById('mlReport'), artifacts=document.getElementById('mlArtifacts');
+ function updateTask(){
+  const t=task.value, flood=t==='flood_extent', damage=t==='building_damage';
+  inputWrap.hidden=!flood; beforeWrap.hidden=flood; afterWrap.hidden=flood; sclWrap.hidden=t!=='urban_change'; sclPolicyWrap.hidden=t!=='urban_change'; pairMetaWrap.hidden=flood;
+  before.required=!flood; after.required=!flood; input.required=flood;
+  before.accept=damage?'.png,.jpg,.jpeg,.tif,.tiff':'.tif,.tiff'; after.accept=before.accept;
+  document.getElementById('mlBeforeLabel').textContent=damage?'Pre-disaster RGB image':'Before Sentinel-2 GeoTIFF';
+  document.getElementById('mlAfterLabel').textContent=damage?'Post-disaster RGB image':'After Sentinel-2 GeoTIFF';
+  document.getElementById('mlBeforeHint').textContent=damage?'RGB byte-range image aligned with its post-disaster partner.':'13-band OSCD-order Sentinel-2 GeoTIFF with CRS and transform.';
+  document.getElementById('mlAfterHint').textContent=damage?'Same dimensions and scene; RGB input only.':'Same area, CRS, affine grid, band order and compatible radiometric scale.';
+  status.textContent='Task changed. Validate the current input pair before inference.'; artifacts.replaceChildren(); report.textContent='No report yet.';
+ }
+ task.addEventListener('change',updateTask); updateTask();
+ function appendCommon(fd){
+  fd.append('task',task.value); fd.append('assume_band_order',document.getElementById('mlAssumeBands').checked?'true':'false');
+  fd.append('scl_class2_policy',document.getElementById('mlSclPolicy').value);
+  const meta=document.getElementById('mlPairMeta').files[0]; if(meta) fd.append('pair_metadata_file',meta);
+  const aoi=document.getElementById('mlAOI').files[0]; if(aoi) fd.append('aoi_geojson_file',aoi);
+  if(task.value==='flood_extent'){if(input.files[0])fd.append('input_file',input.files[0]);}
+  else {if(before.files[0])fd.append('before_file',before.files[0]); if(after.files[0])fd.append('after_file',after.files[0]);}
+  if(task.value==='urban_change'){
+   const bs=document.getElementById('mlBeforeScl').files[0],as=document.getElementById('mlAfterScl').files[0];
+   if(bs)fd.append('before_scl_file',bs); if(as)fd.append('after_scl_file',as);
+  }
+  return fd;
+ }
+ async function request(path){
+  const t=task.value;
+  if(t==='flood_extent'&&!input.files[0])throw new Error('Choose a Sentinel-1 VV/VH GeoTIFF first.');
+  if(t!=='flood_extent'&&(!before.files[0]||!after.files[0]))throw new Error('Choose both before and after images first.');
+  const response=await fetch(path,{method:'POST',body:appendCommon(new FormData())}); const data=await response.json();
+  report.textContent=JSON.stringify(data,null,2);
+  if(!response.ok){const detail=data.detail||data;const msg=typeof detail==='string'?detail:(detail.message||detail.reason||JSON.stringify(detail));throw new Error(`HTTP ${response.status}: ${msg}`);}
+  return data;
+ }
+ document.getElementById('mlPreflight').addEventListener('click',async()=>{
+  artifacts.replaceChildren(); status.textContent='Inspecting files, AOI coverage, sensor profile, overlap, masks and registration diagnostics…';
+  try{const d=await request('/api/preflight');status.textContent=`Preflight: ${d.status} · ${d.warnings?.length||0} warning(s) · ${d.hard_errors?.length||0} rejection reason(s). Read the report below.`;
+   if(d.report_url){const a=document.createElement('a');a.className='link';a.href=d.report_url;a.target='_blank';a.textContent='Open validation JSON';artifacts.append(a);}
+  }catch(e){status.textContent=e.message;}
+ });
+ document.getElementById('mlPredict').addEventListener('click',async()=>{
+  artifacts.replaceChildren(); status.textContent='Checking checkpoint and running task-specific inference…';
+  try{const d=await request('/api/predict');status.textContent=`Prediction: ${d.status} · valid pixels ${(100*(d.valid_fraction||0)).toFixed(2)}%. Scores/uncertainty are not calibrated.`;
+   for(const [key,label] of [['mask_url','Class mask'],['scores_url','Class scores'],['uncertainty_url','Uncertainty proxy'],['overlay_url','Overlay preview'],['report_url','JSON report']]) if(d[key]){const a=document.createElement('a');a.className='link';a.href=d[key];a.target='_blank';a.textContent=label;artifacts.append(a);}
+  }catch(e){status.textContent=e.message;}
+ });
+ document.getElementById('mlStatusBtn').addEventListener('click',async()=>{try{const r=await fetch('/api/models/status');const d=await r.json();report.textContent=JSON.stringify(d,null,2);status.textContent=Object.entries(d.models||{}).map(([k,v])=>`${k}: ${v.status}`).join(' · ');}catch(e){status.textContent='Could not read model status: '+e.message;}});
+})();
+</script>
+
+</body></html>

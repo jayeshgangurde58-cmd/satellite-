@@ -1,0 +1,12 @@
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+.env
+.DS_Store
+outputs/*
+!outputs/.gitkeep
+!outputs/MODEL_WEIGHTS_STATUS.md
+data/oscd/**
+!data/oscd/README.md

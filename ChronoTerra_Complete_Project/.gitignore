@@ -1,0 +1,37 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Local secrets and runtime outputs
+.env
+.env.*.local
+ChronoTerra_Backend/jobs_data/
+ChronoTerra_Backend/prediction_module/outputs/sessions/
+ChronoTerra_Backend/prediction_module/outputs/models/
+ChronoTerra_Backend/prediction_module/data/oscd/**
+ChronoTerra_Backend/prediction_module/data/sen1floods11/**
+ChronoTerra_Backend/prediction_module/data/xbd/**
+ChronoTerra_Backend/data/
+
+jobs_data/

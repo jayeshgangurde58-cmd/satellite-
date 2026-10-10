@@ -1,0 +1,18 @@
+{
+  "seed": 42,
+  "epochs": 40,
+  "batch_size": 2,
+  "patch_size": 256,
+  "patches_per_scene": 8,
+  "base_channels": 16,
+  "learning_rate": 0.0003,
+  "weight_decay": 0.0001,
+  "patience": 8,
+  "optimizer": "AdamW",
+  "scheduler": "ReduceLROnPlateau on validation foreground mIoU",
+  "loss": "weighted cross entropy + masked foreground Dice",
+  "checkpoint_selection": "validation foreground mIoU",
+  "test_access_during_training": false,
+  "augmentation": ["horizontal flip", "vertical flip", "90-degree rotations"],
+  "warning": "Defaults are an initial experiment configuration, not evidence these hyperparameters are optimal. Run a controlled validation-only search." 
+}

@@ -1,0 +1,29 @@
+{
+  "urban_change_oscd": {
+    "task_id": "urban_change",
+    "status": "training_code_ready_data_required",
+    "dataset": "ONERA / OSCD",
+    "architecture": "Siamese U-Net trained from scratch",
+    "input_each": {"channels": 13, "format": "registered multiband GeoTIFF", "band_order": ["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B8A", "B09", "B10", "B11", "B12"]},
+    "output": {"classes": {"0": "unchanged", "1": "candidate_change"}},
+    "limitations": ["OSCD change does not mean a building change, flood, damage or legal encroachment", "Small benchmark and mixed native band resolution", "Do not accept arbitrary RGB uploads with this checkpoint"]
+  },
+  "flood_extent_sen1floods11": {
+    "task_id": "flood_extent",
+    "status": "training_code_ready_data_required",
+    "dataset": "Sen1Floods11 v1.1 hand-labeled subset",
+    "architecture": "U-Net semantic segmentation trained from scratch",
+    "input": {"channels": 2, "sensor": "Sentinel-1 SAR GRD", "bands": ["VV_dB", "VH_dB"], "normalization": "clip dB to [-35,5], map to [0,1]"},
+    "target": {"raw_values": {"-1": "invalid / ignore", "0": "not water", "1": "water"}, "model_classes": {"0": "not_water", "1": "water"}},
+    "limitations": ["Water extent is not automatically flood extent change", "Permanent water and radar geometry can cause errors", "Requires SAR inputs, not normal RGB photos"]
+  },
+  "building_damage_xbd": {
+    "task_id": "building_damage",
+    "status": "training_code_ready_data_required",
+    "dataset": "xBD / xView2 labelled pre/post pairs",
+    "architecture": "U-Net semantic segmentation trained from scratch",
+    "input": {"channels": 6, "composition": "RGB pre-disaster (3) concatenated with RGB post-disaster (3)", "normalization": "divide byte RGB values by 255"},
+    "target": {"classes": {"0": "background", "1": "no_damage", "2": "minor_damage", "3": "major_damage", "4": "destroyed"}},
+    "limitations": ["Not a legal or structural engineering certification", "Requires compatible pairs and xBD target-mask encoding", "Dataset access and use terms must be checked before sharing artifacts"]
+  }
+}

@@ -1,0 +1,11 @@
+numpy>=1.26,<3
+rasterio>=1.3.10
+geopandas>=0.14
+scikit-image>=0.22
+Pillow>=10
+pytest>=8
+
+# Demo API and upload endpoint
+fastapi>=0.115,<1
+uvicorn[standard]>=0.30,<1
+python-multipart>=0.0.9
